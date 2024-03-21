@@ -14,17 +14,22 @@ export default function Home() {
                           outline-none ring ring-transparent focus:ring-green-500
                           focus:ring-offset-2 transition-shadow
                           placeholder:drop-shadow
-                          invalid:focus:ring-red-700"
+                          invalid:focus:ring-red-700
+                          peer"
                type="email" 
-               placeholder="search here.."
+               placeholder="Email address"
                required 
         />
+
+        <span className="text-red-500 font-medium hidden peer-invalid:block pl-3">Email is required</span>
+
         {/* 그라데이션 적용 */}
         <button className="bg-black
                          text-white py-2 rounded-full active:scale-90 
                           transition-transform font-medium focus:scale-90 outline-none
-                          md:px-10"> {/* 반응형 적용 */}
-          Search
+                          md:px-10
+                          peer-invalid:bg-red-100"> {/* peer-required:bg-green-500*/}
+          Log in
         </button>
       </div>
     </main>
@@ -32,4 +37,4 @@ export default function Home() {
 }
 
 // 폼을 만들 때 사용할 수 있는 몇가지 modifier
-//내 입력값이 유효하지 않다면 배경색을 red-100으로 변경
+// peer
