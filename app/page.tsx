@@ -18,12 +18,17 @@ export default function Home() {
                type="text" 
                placeholder="search here.." 
         />
-        <button className="bg-black text-white py-2 rounded-full active:scale-90 
-                              transition-transform font-medium focus:scale-90 outline-none
-                              md:px-10">
+        {/* 그라데이션 적용 */}
+        <button className="bg-gradient-to-tr from-cyan-500 via-yellow-400 to-purple-400 
+                         text-white py-2 rounded-full active:scale-90 
+                          transition-transform font-medium focus:scale-90 outline-none
+                          md:px-10"> {/* 반응형 적용 */}
           Search
         </button>
       </div>
     </main>
   );
 }
+
+// 폼을 만들 때 사용할 수 있는 몇가지 modifier
+// Tailwind CSS에서 그라데이션 배경을 만드는 게 쉽다
