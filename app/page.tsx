@@ -5,9 +5,10 @@ export default function Home() {
       <div className="bg-white shadow-lg p-5 rounded-3xl w-full max-w-screen-sm flex flex-col gap-2">
         {/* input과 button의 컨테이너 역할을 하는 카드 컴포넌트를 만들기 */}
         <input className="w-full rounded-full h-12 
-                        bg-gray-200 pl-5 outline-none ring 
-                        ring-orange-500 ring-offset-2 
-                        ring-offset-blue-600" 
+                        bg-gray-200 pl-5 outline-none ring ring-transparent
+                        focus:ring-orange-500
+                        focus:ring-offset-2 transition-shadow
+                        placeholder:drop-shadow"
                type="text" 
                placeholder="search here.." 
         />
