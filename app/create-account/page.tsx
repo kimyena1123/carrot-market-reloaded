@@ -19,12 +19,7 @@ export default function CreateAccount(){
                 
                 <FormButton loading={false} text="Create account"></FormButton>
             </form>
-
-            <div className="w-full h-px bg-neutral-500" />
-
-            <div>
-                <SocialLogin />
-            </div>
+            <SocialLogin />
         </div>
     );
 }

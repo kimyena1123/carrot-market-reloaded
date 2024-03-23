@@ -18,11 +18,7 @@ export default function Login(){
                 <FormButton loading={false} text="Create account"></FormButton>
             </form>
 
-            <div className="w-full h-px bg-neutral-500" />
-
-            <div>
-                <SocialLogin />
-            </div>
+            <SocialLogin />
         </div>
     );
 }
