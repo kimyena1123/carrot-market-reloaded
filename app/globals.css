@@ -9,7 +9,9 @@ base는 컴파일러가 tailswind와 함께 제공되는 기본적인 스타일 
 
 @layer base{
     a{
-        @apply text-blue-500;
+        /* 모든 a 태그의 색상은 주황색으로 
+        mouse를 hover 했을 때는 밑줄을 가지도록*/
+        @apply text-orange-500;
     }
 }
 
@@ -20,9 +22,10 @@ base는 컴파일러가 tailswind와 함께 제공되는 기본적인 스타일 
 }
 
 @layer components{
-    .btn{
-        @apply w-full h-10 bg-black text-white 
-    rounded-borderName mt-tomato
+    .primary-btn{
+        @apply w-full bg-orange-500 text-white 
+        font-medium rounded-md text-center
+        hover:bg-orange-400 transition-colors
     }
 }
 
