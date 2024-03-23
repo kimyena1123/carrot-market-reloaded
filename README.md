@@ -17,3 +17,15 @@ bun dev
 # Carrot-market-reloaded
 npx create-next-app@latest
 npm run dev
+
+### daisyUI 설치
+npm i -D daisyui@latest
+
+### tailwind forms plugin 설치
+https://tailwindcss.com/docs/plugins#official-plugins
+https://github.com/tailwindlabs/tailwindcss-forms
+
+npm i @tailwindcss/forms
+
+plugin에 어래 코드 넣기
+require('@tailwindcss/forms'),

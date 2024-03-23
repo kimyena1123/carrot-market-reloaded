@@ -10,8 +10,9 @@ export default function Home() {
                             h-screen flex items-center justify-center p-5">
             <div className="bg-white shadow-lg p-5
             rounded-3xl w-full max-w-screen-sm flex flex-col gap-4">
-                <button className="w-full h-10 bg-black text-white 
-                                rounded-borderName mt-tomato">
+                <input />
+                <a href="#">aaa</a>
+                <button className="btn">
                     Submit
                 </button>
             </div>
