@@ -12,11 +12,15 @@ export default function Home() {
                         rounded-3xl w-full max-w-screen-sm flex flex-col gap-4">
             {["Nico", "Me", "You", "Yourself", ""].map((person, index) =>
 
-            <div key={index} className="flex items-center gap-5">
+            <div key={index} className="flex items-center gap-5 group">
 
                 <div className="size-10 bg-blue-400 rounded-full"/>
                 <span className="text-lg font-medium 
-                                empty:w-24 empty:h-5 empty:rounded-full empty:animate-pulse empty:bg-gray-300">{person}</span>
+                                empty:w-24 empty:h-5 empty:rounded-full 
+                                empty:animate-pulse empty:bg-gray-300
+                                group-hover:text-red-500">
+                        {person}
+                </span>
                 <div className="size-6 bg-red-500 text-white flex items-center justify-center rounded-full relative">
                     <span className="z-10">{index}</span>
                     <div className="size-6 bg-red-500 rounded-full absolute animate-ping"/>
@@ -27,6 +31,4 @@ export default function Home() {
       </main>
     );
   }
-  
-  
- 
+//group modifier는 아버지의 state에 따라서 자식을 변경하는 것을 도와준다. 
