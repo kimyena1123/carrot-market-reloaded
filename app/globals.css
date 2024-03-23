@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/*
+utilities directive 안에 컴파일러는 모든 utility class name들을 넣을 거다.
+base는 컴파일러가 tailswind와 함께 제공되는 기본적인 스타일 종류를 두는 곳이다.
+*/
