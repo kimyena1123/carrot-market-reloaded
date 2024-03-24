@@ -1,9 +1,10 @@
 "use server";
 import { z } from "zod";
 
-function checkUsername(username:string){
-    return !username.includes("potato");
-}
+const checkUsername = (username:string) => !username.includes("potato");
+
+const checkPassword = ({password, confirm_password}:{password:string, confirm_password:string}) =>
+                    password === confirm_password
 
 const formSchema = z.object({
     username: z.string({
@@ -15,7 +16,10 @@ const formSchema = z.object({
     email: z.string().email(),
     password: z.string().min(10),
     confirm_password: z.string().min(10),
-})
+}).refine(checkPassword, {
+    message: "Both passwords should be the same!",
+    path: ["confirm_password"]
+});
 
 export async function createAccount(prevState:any, formData:FormData){
     //검증하려는(validate) 데이터 개체이다.
@@ -30,6 +34,7 @@ export async function createAccount(prevState:any, formData:FormData){
     console.log(result); //{ success: false, error: [Getter] }
 
     if(!result.success){ //success가 true가 아니라면
+        console.log(result.error.flatten());
         return result.error.flatten(); //이렇게 출력되는 결과가 state에 담기는 것임
     }
 }
