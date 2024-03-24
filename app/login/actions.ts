@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
     //Server Action
     //FormData는 FormData constructor 내부에서 오는 거다.
-    export async function handleForm(prevState: any, data:FormData){
+    export async function handleForm(prevState: any, formData:FormData){
         console.log(prevState);
 
         await new Promise(resolve => setTimeout(resolve, 5000));

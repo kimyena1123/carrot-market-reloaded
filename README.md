@@ -41,3 +41,6 @@ require('@tailwindcss/forms'),
 ```
 npm install @heroicons/react
 ```
+
+## zod install
+npm i zod 

@@ -27,8 +27,8 @@ export default function Login(){
             <form action={action}
                 className="flex flex-col gap-3">
                 {/* 페이지에 따라 input 태그가 많아질 수도, 적어질수도 있다. 직접 입력하기보다는 컴포넌트로 빼두는게 효율적임! */}
-                <FormInput type="email" name="email" placeholder="Email" required errors={[]}/>
-                <FormInput type="password" name="password" placeholder="Password" required errors={state?.errors ?? []}/>
+                <FormInput type="email" name="email" placeholder="Email" required/>
+                <FormInput type="password" name="password" placeholder="Password" required />
                 
                 <FormButton text="Log in"></FormButton>
             </form>
