@@ -3,10 +3,14 @@ import FormInput from "@/components/form-input";
 import SocialLogin from "@/components/social-login";
 
 export default function Login(){
-    //Login 컴포넌트 안에서 onSubmit이라는 함수를 만들거다. 
-    async function handleForm(){
+
+    //Server Action
+    //FormData는 FormData constructor 내부에서 오는 거다.
+    async function handleForm(data:FormData){
         "use server";
         console.log("i run in the server baby!");
+        console.log("이메일>> ", data.get("email"));
+        console.log("비번 >> ", data.get("password"));
     }
     
     return(
@@ -19,8 +23,8 @@ export default function Login(){
             <form action={handleForm}
                 className="flex flex-col gap-3">
                 {/* 페이지에 따라 input 태그가 많아질 수도, 적어질수도 있다. 직접 입력하기보다는 컴포넌트로 빼두는게 효율적임! */}
-                <FormInput type="email" placeholder="Email" required errors={[]}/>
-                <FormInput type="password" placeholder="Password" required errors={[]}/>
+                <FormInput type="email" name="email" placeholder="Email" required errors={[]}/>
+                <FormInput type="password" name="password" placeholder="Password" required errors={[]}/>
                 
                 <FormButton loading={false} text="Log in"></FormButton>
             </form>

@@ -10,14 +10,16 @@ interface FormInputProps{
         required:boolean;
         //errors는 string 배열이 된다 => 여러 개의 error를 가질 수도 있기 때문.
         errors:string[];
+        name:string;
 }
 
 //{type}, {placeholder}, {required}, {errer} 값들은 모두 props에서 가져와야 한다.
 //타입스크립트를 사용하고 있기에, FormInputProps라는 인터페이스를 만들 것이다.
-export default function FormInput({type, placeholder, required, errors}: FormInputProps){
+export default function FormInput({type, placeholder, required, errors, name}: FormInputProps){
     return(
         <div className="flex flex-col gap-2">
                 <input type={type} 
+                        name={name}
                         placeholder={placeholder} 
                         className="bg-transparent rounded-md w-full h-10 focus:outline-none
                                 ring-2 focus:ring-4 ring-neutral-200 focus:ring-orange-500
