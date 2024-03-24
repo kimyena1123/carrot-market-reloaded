@@ -8,6 +8,10 @@ import { handleForm } from "./actions";
 
 export default function Login(){
 
+    //useFormState 함수
+    //첫번째 아이템: action이 반환하는 값(즉, action이 실행해서 나온 결과값)
+    //두번째 아이템: action을 실행하는 트리거
+    //즉, 트리거를 통해 action을 실행하면 hook은 action의 결과를 state에 담아서 돌려준다. 
     const [state, action] = useFormState(handleForm, null);
 
     return(

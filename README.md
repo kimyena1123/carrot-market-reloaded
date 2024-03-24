@@ -27,6 +27,7 @@ npm i -D daisyui@latest
 
 ### tailwind forms plugin 설치
 https://tailwindcss.com/docs/plugins#official-plugins
+
 https://github.com/tailwindlabs/tailwindcss-forms
 
 ```
