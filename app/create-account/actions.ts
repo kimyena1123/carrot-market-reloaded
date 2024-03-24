@@ -1,8 +1,17 @@
 "use server";
 import { z } from "zod";
 
+function checkUsername(username:string){
+    return !username.includes("potato");
+}
+
 const formSchema = z.object({
-    username: z.string().min(3).max(10),
+    username: z.string({
+        invalid_type_error: "Username must be a string!", 
+        required_error: "Where is my username??"
+    }).min(3, "username이 너무 짧습니다")
+        .max(10, "username이 너무 깁니다!")
+        .refine(checkUsername, "No potatoes allowed!"),
     email: z.string().email(),
     password: z.string().min(10),
     confirm_password: z.string().min(10),
