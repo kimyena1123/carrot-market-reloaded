@@ -1,6 +1,7 @@
 import FormButton from "@/components/form-btn";
 import FormInput from "@/components/form-input";
 import SocialLogin from "@/components/social-login";
+import { redirect } from "next/navigation";
 
 export default function Login(){
 
@@ -11,6 +12,8 @@ export default function Login(){
 
         await new Promise(resolve => setTimeout(resolve, 5000));
         console.log("logged in!");
+        
+        redirect("/");
         // console.log("이메일>> ", data.get("email"));
         // console.log("비번 >> ", data.get("password"));
     }
