@@ -17,8 +17,10 @@ interface FormButtonProps{
 //text에도 loading이 필요하다
 export default function FormButton({text}:FormButtonProps){
 
+    //useFormStatus는 객체를 반환한다. 이 객체는 여러 속성을 가지고 있다(data, method, pending...). 그리고 action이 어떤 action이었는지를 알려준다. 
     //pending : true or false
-    //버튼은 form이 pending 상태(true)라면 비활성화될 거다.
+    //버튼은 form이 pending 상태(true)라면 비활성화될 거다.(pending 상태인지를 알려준다 -> function이 끝난 여부를 알려준다.)
+    //하지만 문제가 있다(이 hook은 action을 실행하는 form과 같은 곳에서 사용할 수 없다. form의 "자식"에서만 사용할 수 있다)
     //이 hook은 자동으로 부모 form을 찾을 거다.=> 여기서 부모 form은? => 로그인 페이지의 form action={handleForm}부분임.
     const {pending} = useFormStatus();
 

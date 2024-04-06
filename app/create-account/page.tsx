@@ -45,6 +45,7 @@ export default function CreateAccount(){
                 />
                 
 
+                {/* 여기 컴포넌트에서 useFormStatus hook이 사용되고 있다 -> 이 hook은  form 태그와 같이 사용x. form의 "자식"에서만 사용 가능.*/}
                 <FormButton text="Create account"></FormButton>
             </form>
             <SocialLogin />

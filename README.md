@@ -43,4 +43,8 @@ npm install @heroicons/react
 ```
 
 ## zod install
+https://zod.dev/?id=strings
+
+```
 npm i zod 
+```

@@ -24,8 +24,7 @@ export default function Login(){
             {/* 여기서 action={handleForm}은 server action을 적용 
             여기 action이 pending 상태인지를 자동으로 알아낸다.로딩중인지, 작업이 끝났는지를 자동으로 알아낸다.
             중요) 이 hook은 form의 자식요소에서 사용해야 한다. form과 같은 곳에서 사용할 수 없다.*/}
-            <form action={action}
-                className="flex flex-col gap-3">
+            <form action={action} className="flex flex-col gap-3">
                 {/* 페이지에 따라 input 태그가 많아질 수도, 적어질수도 있다. 직접 입력하기보다는 컴포넌트로 빼두는게 효율적임! */}
                 <FormInput type="email" name="email" placeholder="Email" required/>
                 <FormInput type="password" name="password" placeholder="Password" required />
