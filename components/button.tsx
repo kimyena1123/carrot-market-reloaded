@@ -6,7 +6,7 @@
 
 import { useFormStatus } from "react-dom";
 
-interface FormButtonProps{
+interface ButtonProps{
     //이제 이 버튼에서 loading은 필요없다. 왜냐하면 이제는 hook이 form의 로딩상태를 알려줄 것이기 때문이다.
     // loading: boolean;
     text:string;
@@ -15,7 +15,7 @@ interface FormButtonProps{
 
 //버튼은 로딩중일 때 비활성화 시켜줘야 할 수도 있기 때문에 disabled 설정
 //text에도 loading이 필요하다
-export default function FormButton({text}:FormButtonProps){
+export default function Button({text}:ButtonProps){
 
     //useFormStatus는 객체를 반환한다. 이 객체는 여러 속성을 가지고 있다(data, method, pending...). 그리고 action이 어떤 action이었는지를 알려준다. 
     //pending : true or false

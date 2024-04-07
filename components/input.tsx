@@ -6,10 +6,7 @@
 
 import { InputHTMLAttributes } from "react";
 
-interface FormInputProps{
-        type:string;
-        placeholder: string;
-        required:boolean;
+interface InputProps{
         //errors는 string 배열이 된다 => 여러 개의 error를 가질 수도 있기 때문.
         errors?:string[];
         name:string;
@@ -20,17 +17,15 @@ interface FormInputProps{
 //InputHTMLAttributes<HTMLInputElement> : 이건 generic이라고 함-> FormInput 컴포넌트는 위에 있는 interface안에 있는 내용들을 props로 받는데 
 // 그것뿐만 아니라 input이 받을 수 있는 모든 attributes 또한 받을 수 있다고 선언한 것(예를 들어 type이 number이면 min, max attributes를 설정할 수 있도록!)
 //이렇게 되면 위에 interface에 있는 것들은 모두 지울 수 있다.
-export default function FormInput({type, placeholder, required, errors=[], name}: FormInputProps & InputHTMLAttributes<HTMLInputElement>){
+export default function Input({errors=[], name,...rest}: InputProps & InputHTMLAttributes<HTMLInputElement>){
+    console.log(rest);
     return(
         <div className="flex flex-col gap-2">
-                <input type={type} 
-                        name={name}
-                        placeholder={placeholder} 
+                <input name={name}
                         className="bg-transparent rounded-md w-full h-10 focus:outline-none
                                 ring-2 focus:ring-4 ring-neutral-200 focus:ring-orange-500
-                                border-none placeholder:text-neutral-400 transition"
-                        required={required}
-                        
+                                border-none placeholder:text-neutral-400 transition"  
+                        {...rest}                      
                 />
                 {errors.map((error, index)=>(
                         <span key={index}

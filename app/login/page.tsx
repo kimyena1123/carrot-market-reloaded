@@ -1,7 +1,7 @@
 "use client";
 
-import FormButton from "@/components/form-btn";
-import FormInput from "@/components/form-input";
+import Button from "@/components/button";
+import Input from "@/components/input";
 import SocialLogin from "@/components/social-login";
 import { useFormState } from "react-dom";
 import { handleForm } from "./actions";
@@ -26,10 +26,10 @@ export default function Login(){
             중요) 이 hook은 form의 자식요소에서 사용해야 한다. form과 같은 곳에서 사용할 수 없다.*/}
             <form action={action} className="flex flex-col gap-3">
                 {/* 페이지에 따라 input 태그가 많아질 수도, 적어질수도 있다. 직접 입력하기보다는 컴포넌트로 빼두는게 효율적임! */}
-                <FormInput type="email" name="email" placeholder="Email" required/>
-                <FormInput type="password" name="password" placeholder="Password" required />
+                <Input type="email" name="email" placeholder="Email" required/>
+                <Input type="password" name="password" placeholder="Password" required />
                 
-                <FormButton text="Log in"></FormButton>
+                <Button text="Log in"></Button>
             </form>
 
             <SocialLogin />

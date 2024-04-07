@@ -16,7 +16,7 @@ const formSchema = z
         required_error: "Where is my username???", //해당 필드가 필수여야 한다는 의미. 해당 필드에 값을 안쓰면 메시지 출력
       })
       .min(3, "Username too short!!!")
-      //.max(10, "That is too looooong!")
+      .max(10, "That is too looooong!")
       .trim() //유저가 시작과 끝에 공백을 넣었을 때, string 앞뒤에 붙은 공백을 제거해준다.
       .toLowerCase() //유저가 대문자로 입력해도 소문자로 바꿔준다. 
       .transform((username) => `🔥 ${username}`)
