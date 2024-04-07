@@ -1,4 +1,4 @@
-"use client";
+"use client"; //useFormState를 쓰려면 이 페이지가 use client여야 한다
 
 import FormButton from "@/components/form-btn";
 import FormInput from "@/components/form-input";
@@ -8,6 +8,7 @@ import { createAccount } from "./actions";
 
 export default function CreateAccount(){
     
+    //action말고 dispatch라고도 함
     const [state, dispatch] = useFormState(createAccount, null);
 
     return(
@@ -23,7 +24,7 @@ export default function CreateAccount(){
                             name="username" 
                             placeholder="Usernmae" 
                             required
-                            errors={state?.fieldErrors.username} 
+                            errors={state?.fieldErrors.username} // 물음표를 쓰는 이유: 값이 string이거나 undefined 일 수 있기 때문.
                 />
                 <FormInput type="email" 
                             name="email" 
