@@ -57,3 +57,18 @@ validator처럼 type이 없는 라이브러리들은 다른 사람들이 라이�
 npm i validator
 npm i --save-dev @types/validator
 ```
+
+## Prisma install
+```
+npm i prisma
+npx prisma init
+```
+만든 DB에 접속하기 위해 DB url을 .env 파일에 저장해야 한다고 알려준다. 
+나중에 이 어플리케이션을 배포할 때 실제로 어딘가에 데이터베이스를 확보해야 한다. 그리고 Prisma에게 DB의 URL이 뭔지 알려줘야 한다. 
+하지만 지금은ㅇ SQLite(로컬DB)를 사용할 것이다. 
+.env 파일을 gitignore에 넣어야 한다. 나중에 DB url을 private으로 바꾸게 된다면 이걸 사람들에게 공개하는 것을 원하지 않을것이다.
+(다른 사람들이 내 DB의 username이나 password 같은 것을 가질 수 있기에.)
+```
+npx prisma migrate dev
+npx prisma studio
+```
