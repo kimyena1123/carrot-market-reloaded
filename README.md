@@ -72,3 +72,11 @@ npx prisma init
 npx prisma migrate dev
 npx prisma studio
 ```
+
+## 비밀번호 암호화
+npm i bcrypt:비밀번호를 해싱할 수 있게 해주는 패키지이다.
+npm i @types/bcrypt: 이 패키지에 대한 타입스크립트 definition을 얻을 수 있다.
+```
+npm i bcrypt
+npm i @types/bcrypt
+```
