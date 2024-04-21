@@ -80,3 +80,8 @@ npm i @types/bcrypt: 이 패키지에 대한 타입스크립트 definition을 �
 npm i bcrypt
 npm i @types/bcrypt
 ```
+
+## iron-session install
+```
+npm i iron-session
+```
