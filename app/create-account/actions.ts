@@ -4,6 +4,9 @@ import "@/lib/db";
 import db from "@/lib/db";
 import { z } from "zod";
 import bcrypt from 'bcrypt';
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 const checkUsername = (username:string) => !username.includes("미친");
 
@@ -88,6 +91,8 @@ const formSchema = z
 
 export async function createAccount(prevState: any, formData: FormData) {
 
+  console.log(cookies());
+
     //검증하려는(validate) 데이터 개체
     const data = {
         username: formData.get("username"),
@@ -110,6 +115,7 @@ export async function createAccount(prevState: any, formData: FormData) {
       const hashedPassword = await bcrypt.hash(result.data.password, 12); //해싱 알고리즘을 12번 실행
       // console.log(hashedPassword);
 
+      //4. 마지막으로 사용자를 Prisma 사용해서 데이터베이스에 저장한다
       //비밀번호를 해싱한 후 데이터베이스에 저장
       const user = await db.user.create({
         data: {
@@ -124,11 +130,22 @@ export async function createAccount(prevState: any, formData: FormData) {
 
       console.log(user);
 
-      //4. 마지막으로 사용자를 Prisma 사용해서 데이터베이스에 저장한다
+      //5. 사용자가 데이터베이스에 저장되면 사용자를 로그인시켜준다.(iron-session)
+      //getIronSession은 쿠키 접근 허용이 필요하다. 
+      //우리는 나중에 쿠키를 읽거나 설정할 것이기 때문에, iron session에 쿠키를 줄거다
+      //고맙게도, Nextjs의 최신버전(14ver)에서는 쿠키를 얻는게 엄청 쉽다. cookies라는 함수만 쓰면된다.
+      //iron session을 얻으려면 현재 쿠키가 필요하다
+      const cookie = await getIronSession(cookies(), {
+        cookieName: "delicious-carrot",
+        password: process.env.COOKIE_PASSWORD! //쿠키를 암호화하기 위해 사용할거임
+      });
 
-      //5. 사용자가 데이터베이스에 저장되면 사용자를 로그인시켜준다.
+      //@ts-ignore
+      cookie.id = user.id
+      await cookie.save();
 
       //6. 사용자가 로그인하면 사용자를 /home으로 redirect 시킨다. 
+      redirect("/profile");
 
         // console.log(result.data);
     }
