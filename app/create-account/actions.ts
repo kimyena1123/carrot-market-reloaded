@@ -3,6 +3,7 @@ import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 import "@/lib/db";
 import db from "@/lib/db";
 import { z } from "zod";
+import bcrypt from 'bcrypt';
 
 const checkUsername = (username:string) => !username.includes("미친");
 
@@ -104,7 +105,24 @@ export async function createAccount(prevState: any, formData: FormData) {
     } else { //validation이 성공했다면
 
 
-      //3. 비밀번호 해싱(Hashing)
+      //3. 비밀번호 해싱(Hashing) 
+      //await을 하는 이유: 데이터베이스에서 무언가를 찾거나 문자열을 해싱하는 과정은 시간이 걸린다. 그래서 await을 하는 것이다.
+      const hashedPassword = await bcrypt.hash(result.data.password, 12); //해싱 알고리즘을 12번 실행
+      // console.log(hashedPassword);
+
+      //비밀번호를 해싱한 후 데이터베이스에 저장
+      const user = await db.user.create({
+        data: {
+          username: result.data.username,
+          email: result.data.email,
+          password: hashedPassword
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      console.log(user);
 
       //4. 마지막으로 사용자를 Prisma 사용해서 데이터베이스에 저장한다
 
