@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import getSession from "@/lib/session";
 
 const checkUsername = (username:string) => !username.includes("미친");
 
@@ -135,15 +136,15 @@ export async function createAccount(prevState: any, formData: FormData) {
       //우리는 나중에 쿠키를 읽거나 설정할 것이기 때문에, iron session에 쿠키를 줄거다
       //고맙게도, Nextjs의 최신버전(14ver)에서는 쿠키를 얻는게 엄청 쉽다. cookies라는 함수만 쓰면된다.
       //iron session을 얻으려면 현재 쿠키가 필요하다
-      const cookie = await getIronSession(cookies(), {
-        cookieName: "delicious-carrot",
-        password: process.env.COOKIE_PASSWORD! //쿠키를 암호화하기 위해 사용할거임
-        //! : .env 안에 COOKIE_PASSWORD가 무조건 존재한다는 것을 알려주기 위한 것임
-      });
+      const session = await getSession();
 
-      //@ts-ignore
-      cookie.id = user.id
-      await cookie.save();
+      //가끔 어떤 쿠키에는 id가 없을 수도 있기 때문이다. 
+      //그런 경우 그 에러는 유저가 로그아웃 상태일 때 이 코드를 호출하면 발생할 거다.
+      //이 코드가 이미 존재하는 쿠키를 주면 그건 id를 가지고 있다. 아니면 id가 없는 쿠키를 줄 수도 있다. 
+        //-> 왜냐하면 사용자가 로그인되어 있지 않을 수 있기 때문. 그러면 id가 없는 새로 만든 쿠키를 줄 거다. 
+      
+      session.id = user.id
+      await session.save();
 
       //6. 사용자가 로그인하면 사용자를 /home으로 redirect 시킨다. 
       redirect("/profile");
@@ -152,3 +153,4 @@ export async function createAccount(prevState: any, formData: FormData) {
     }
 }
 
+//사용자가 로그인 상태인지 알고 싶을 때는 언제든지 getSsession으로 세션에 id가 있는지 검사하면 된다. 
