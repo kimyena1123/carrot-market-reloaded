@@ -143,6 +143,7 @@ export async function createAccount(prevState: any, formData: FormData) {
       //이 코드가 이미 존재하는 쿠키를 주면 그건 id를 가지고 있다. 아니면 id가 없는 쿠키를 줄 수도 있다. 
         //-> 왜냐하면 사용자가 로그인되어 있지 않을 수 있기 때문. 그러면 id가 없는 새로 만든 쿠키를 줄 거다. 
       
+      //사용자가 로그인 상태인지 알고 싶을 때는 언제든지 getSsession으로 세션에 id가 있는지 검사하면 된다. 
       session.id = user.id
       await session.save();
 
@@ -153,4 +154,3 @@ export async function createAccount(prevState: any, formData: FormData) {
     }
 }
 
-//사용자가 로그인 상태인지 알고 싶을 때는 언제든지 getSsession으로 세션에 id가 있는지 검사하면 된다. 
