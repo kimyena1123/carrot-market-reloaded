@@ -138,6 +138,7 @@ export async function createAccount(prevState: any, formData: FormData) {
       const cookie = await getIronSession(cookies(), {
         cookieName: "delicious-carrot",
         password: process.env.COOKIE_PASSWORD! //쿠키를 암호화하기 위해 사용할거임
+        //! : .env 안에 COOKIE_PASSWORD가 무조건 존재한다는 것을 알려주기 위한 것임
       });
 
       //@ts-ignore
