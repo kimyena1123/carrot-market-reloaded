@@ -1,6 +1,6 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 async function getUser() {
   //여기서 session을 가져온다.
@@ -17,8 +17,18 @@ async function getUser() {
       },
     });
 
-    return user;
+    if(user){ //session이 있지만 user를 찾지 못하거나 session이 없는 경우에 notFound()함수를 trigger 할 거다
+      return user;
+    }
   }
+
+  //예를 들어, 사용자가 로그인을 하면 localhost:3000/profile로 이동해서 해당 유저의 정보를 보여준다. 
+  //유저가 해당 주소를 복붙한 다음 로그아웃 하고 나서 복붙한 주소(localhost:3000/profile)로 들어갔을 때
+  //해당 페이지로 이동하는 것을 막기 위해 notFound()함수를 사용한다
+  //notFount는 언제 실행할까? => seesion이 ID가 없을 때 뿐이다!
+  //session이 ID가 있고, user를 찾으려 하지만 찾ㅇ르 수 없으면 notFound가 실행된다
+  //만약 user를 찾고 return 된다면 아래의 notFount는 실행될 일이 없다.
+  notFound(); // 404 status만을 전송한다.
 }
 
 export default async function Profile() {
