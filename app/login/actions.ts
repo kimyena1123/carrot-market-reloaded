@@ -92,6 +92,10 @@ export async function login(prevState: any, formData: FormData) {
       const session = await getSession();
       session.id = user!.id;
 
+      //매번 우리가 session을 변경할 때 cookie에 session.save()를 실행할 거다. 그렇지 않으면 아무것도 안하는거다.
+      //이러한 변경사항은 실제로 cookie에 유지되지 않는다. 
+      await session.save();
+
       //3. 로그인 성공하면 -> 사용자를 /profile로 redirect 하기
       redirect("/profile");
     }else{
