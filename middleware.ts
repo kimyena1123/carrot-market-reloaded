@@ -1,5 +1,9 @@
 import { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest){
-    console.log(request.nextUrl.pathname);
+    if(request.nextUrl.pathname === "/profile"){
+        return Response.json({
+            error: "you are not allowed here!",
+        });
+    }
 }
