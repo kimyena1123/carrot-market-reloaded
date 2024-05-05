@@ -1,16 +1,31 @@
 import { cookies } from "next/headers";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import getSession from "./lib/session";
 
 export async function middleware(request: NextRequest){
-    // console.log(request.cookies.getAll());
-    // console.log(cookies());
-    //즉 여기서는 user가 로그인했는지 여부를 확인할 수 있다는 의미
-    const session = await getSession();
-    console.log(session);
+    console.log("여기는 middleware");
 
-    if(request.nextUrl.pathname === "/profile"){
-        //절대경로를 사용해야 함. 싱대경로x
-        return Response.redirect(new URL("/", request.url)); 
+    /*
+    const pathname = request.nextUrl.pathname;
+
+    //예를 들어 유저가 메인화면으로 이동할 때 여기서 쿠키를 설정하고 싶다.
+    if(pathname === "/"){
+        //cookie를 설정하려면 먼저 내가 유저에게 실제로 제공할 response를 가져와야 한다. 
+        //왜냐면 우리가 유저에게 제공한 response를 가져와서 우리가 원하는 cookie를 그 resonse에 넣기를 원하기 때문이다.여기서 유저에게 주기를 원하는 response를 가져와야 한다.
+        const response = NextResponse.next(); //NextResponse.next(); >> 이건 유저에게 제공할 response를 준다.
+        response.cookies.set("middleware-cookie","hello!"); //response.cookies.set()으로 cookie를 설정할 수 있다.
+
+        return response;
     }
+
+    if(pathname === "/profile"){
+        return NextResponse.redirect(new URL("/", request.url));
+    }*/
+}
+
+export const config = {
+    //config object에는 matcher array가 있다. 말 그대로 mdidleware가 실행되어야 하는 페이지를 지정할 수 있다. 
+         //marcher에서 url을 작성하는 거 외에, 패턴을 쓸 수도 있고 정규방정식을 쓸 수도 있다. ex) user로 시작하는 모든 단일 url에서 실행하도록 하고 싶다
+     matcher: ["/", "/profile", "/create-account", "/user/:path*", "/((?!api|_next/static|_next/image|favicon.ico).*)"],
+
 }
