@@ -9,7 +9,9 @@ interface SessionContent {
 
 //이 getSession() 함수가 브라우저의 cookies를 받고 있다.
 export default function getSession() {
-  console.log('session페이지에서 cookies() 확인 >> ', cookies());
+  // console.log('session페이지에서 cookies() 확인 >> ', cookies());
+
+
   //새로고침하면 아래 내용을 볼 수 있다. 
   // session페이지에서 cookies() 확인 >>  f {
   //   _parsed: Map(1) {
