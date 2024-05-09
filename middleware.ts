@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
-    //로그인한 상태라면         hpublicOnlyUrls에 있는 경로로 갈 수 없어야 한다.
+    //로그인한 상태라면 publicOnlyUrls에 있는 경로로 갈 수 없어야 한다.
     if (exists) {
       //유저가 publicOnlyUrls로 가려고 한다면, 해당 경로로 갈 수 없다는 사실을 알려줘야 함
       return NextResponse.redirect(new URL("/products", request.url));
