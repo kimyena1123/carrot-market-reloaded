@@ -26,15 +26,23 @@ export async function GET(request: NextRequest) {
       Accept: "application/json",
     },
   });
-  const accessTokenData = await accessTokenResponse.json();
+const {error, access_token} = await accessTokenResponse.json();
 
-  if("error" in accessTokenData){
+  if(error){
     return new Response(null, {
         status: 400,
         
     })
   }
 
-  //   return Response.json({ accessTokenParams });
-  return Response.json({ accessTokenData });
+  const userProfileResponse = await fetch("https://api.github.com/user", {
+    headers: {
+      "Authorization": `Bearer ${access_token}`
+    },
+    cache: "no-cache",
+  });
+
+  const userProfileData = await userProfileResponse.json();
+
+  return Response.json({ userProfileData });
 }
