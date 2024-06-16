@@ -1,4 +1,6 @@
-import { notFound } from "next/navigation";
+import db from "@/lib/db";
+import getSession from "@/lib/session";
+import { notFound, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -42,7 +44,42 @@ const {error, access_token} = await accessTokenResponse.json();
     cache: "no-cache",
   });
 
-  const userProfileData = await userProfileResponse.json();
+  //public 프로필로부터 user의 id 등 정보 가져오기
+  const {id, avatar_url, login} = await userProfileResponse.json();
+  const user = await db.user.findUnique({
+    where: {
+      github_id: id+""
+    },
+    select: {
+      id: true,
+    }
+  });
 
-  return Response.json({ userProfileData });
+  if(user){ // 이 user의 계정은 이미 있다는 의미
+    //그럼 유저는 그저 로그인을 하려는 것이지 계정을 새로 만드는게 아니다.
+    const session = await getSession();
+    session.id = user.id;
+    await session.save();
+    
+    return redirect("/profile");
+  }
+
+  //만약 user가 존재하지 않는다면, 새로운 user를 만들고 싶다. 
+  const newuser = await db.user.create({
+     data: {
+      username: login,
+      github_id: id+"", // db에 github_id는 문자열인데 int형으로 줘서 에러 발생.
+      avatar: avatar_url,
+     },
+     select: {
+      id: true
+     }
+  });
+
+  const session = await getSession();
+  session.id = newuser.id;
+  await session.save();
+
+  return redirect("/profile");
+
 }
