@@ -7,15 +7,40 @@ import { z } from "zod";
 import "@/lib/db";
 import db from "@/lib/db";
 import { NEXT_CACHE_REVALIDATED_TAGS_HEADER } from "next/dist/lib/constants";
+import getSession from "@/lib/session";
 
 //refine(): 첫번째 인자 - 내가 refine하려는 data이다.  
 // const phoneSchema = z.string().trim().refine(validator.isMobilePhone);
 // const phoneSchema = z.string().trim().refine(phone => validator.isMobilePhone(phone));
 const phoneSchema = z.string().trim().refine(phone => validator.isMobilePhone(phone, "ko-KR"),"Wrong phone format");
 
+//여기 함수에서는 숫자를 받을 것이다. user는 180293과 같이 token을 우리에게 보내주는데 이건 stirng이다. 우리는 이걸 다시 숫자로 바꿔준다(min과 max를 확인해볼 수 있도록)
+//즉, 우리의 refine이 tokenExists한테 숫자를 보내줄거다. 그래서 여기서 token은 number이다. 
+async function tokenExists(token:number){
+
+    const exists = await db.sMSToken.findUnique({
+        where: {
+            token: token.toString() //왜 number인 token을 toString을 하냐면, 데이터베이스의 token은 String이기 때문에 여기서 잠시 toString으로 해준다
+        },
+        select: {
+            id: true
+        }
+    });
+
+    // if(exists){
+    //     return true;
+    // }else{ // token이 존재하지 않는다면 false를 return => 주의) refine 함수에서 false가 return되면, 그건 error가 있다는 의미이다.  
+    //     return false;
+    // }
+
+    //위 코드를 하나의 코드로 함축해서 아래와 같이 작성할 수 있다.
+    return Boolean(exists);
+}
+
+
 //tokenSchema는 number가 아니다.string으로 변환됨
 //coerce.number: 유저가 입력한 string을 number로 변환하려고 시도함
-const tokenSchema = z.coerce.number().min(100000).max(999999);
+const tokenSchema = z.coerce.number().min(100000).max(999999).refine(tokenExists, "해당 token이 존재하지 않습니다.");
 
 interface ActionState {
     token:boolean
@@ -48,8 +73,9 @@ export async function smsLogIn(prevState: ActionState, formData: FormData){
     // console.log(typeof formData.get("token")); //string
     // console.log(typeof tokenSchema.parse(formData.get("token"))) //number
 
-    const phone = formData.get("phone");
+    const phone = formData.get("phone"); //내가 input 창에 입력한 값
     const token = formData.get('token');
+
 
     //token이 false이면 검증 코드를 받는 input 태그를 숨긴다는 의미
     if(!prevState.token){  //prevState.token이 false이면 이 action을 처음 호출했다는 뜻이다. 즉, 유저가 전화번호만 입력했다는 의미
@@ -110,7 +136,12 @@ export async function smsLogIn(prevState: ActionState, formData: FormData){
             }
         }
     }else{ //token이 true일 때
-        const result = tokenSchema.safeParse(token);
+
+        // const result = tokenSchema.safeParse(token);
+        //user가 input창에 작성한 token값이 존재하는지 확인해야 한다. 이 validation은 tokenSchema에 작성되어 있다.
+            //위에서 refine 함수를 async 함수와 사용하고 있기 때문에 위의 safeParse를 safeParseAsync라고 바꿔준다
+        const result = await tokenSchema.safeParseAsync(token);
+
 
         if(!result.success){
             return{
@@ -119,8 +150,30 @@ export async function smsLogIn(prevState: ActionState, formData: FormData){
 
             }
         }else{
-            //sms 로그인 성공 -> redirect
-            redirect("/");
+            //token의 userId를 얻어내야 한다(이 token에 연결된 user가 누구인지 알 수 있도록).
+            const token = await db.sMSToken.findUnique({
+                where: {
+                    token: result.data.toString()
+                },
+                select: {
+                    id: true,
+                    userId: true,
+                }
+            });
+
+        const session = await getSession();
+        session.id = token!.userId;
+        await session.save();
+        //로그인 했다면 이제 token을 삭제
+        await db.sMSToken.delete({
+            where: {
+                id: token!.id
+            }
+        });
+
+        //로그인 시켜주기 
+        //sms 로그인 성공 -> redirect
+        redirect("/profile");
         }
     }
 }
